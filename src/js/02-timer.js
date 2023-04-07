@@ -43,7 +43,7 @@ timeToEndTimer();
 function timeToEndTimer() {
   const now = new Date().getTime();
 
-  const dif = flatPick.selectedDate - now;
+  const dif = flatpickr.selectedDate - now;
   console.log(convertMs(dif));
 
   refs.days.textContent = convertMs(now).days;
