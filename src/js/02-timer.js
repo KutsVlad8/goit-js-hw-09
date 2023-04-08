@@ -51,7 +51,6 @@ function timeToEndTimer() {
   const now = new Date();
 
   const dif = TIMER_DEADLINE - now;
-  // console.log(convertMs(dif));
 
   refs.days.textContent = convertMs(dif).days;
   refs.hours.textContent = addZero(convertMs(dif).hours);
