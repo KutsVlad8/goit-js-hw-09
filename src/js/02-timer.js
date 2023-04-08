@@ -26,7 +26,7 @@ let TIMER_DEADLINE = null;
 const options = {
   enableTime: true,
   time_24hr: true,
-  // defaultDate: new Date(),
+  defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] <= new Date()) {
