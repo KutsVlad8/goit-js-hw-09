@@ -26,7 +26,7 @@ let TIMER_DEADLINE = null;
 const options = {
   enableTime: true,
   time_24hr: true,
-  defaultDate: new Date(),
+  // defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] <= new Date()) {
@@ -41,6 +41,8 @@ const flatPick = flatpickr('input#datetime-picker', options);
 
 refs.startBtn.addEventListener('click', startTimer);
 
+// const intervalId = setInterval(timeToEndTimer, 1000);
+
 function startTimer() {
   const intervalId = setInterval(timeToEndTimer, 1000);
 }
@@ -52,10 +54,13 @@ function timeToEndTimer() {
 
   const dif = TIMER_DEADLINE - now;
 
-  refs.days.textContent = convertMs(dif).days;
-  refs.hours.textContent = addZero(convertMs(dif).hours);
-  refs.minutes.textContent = addZero(convertMs(dif).minutes);
-  refs.seconds.textContent = addZero(convertMs(dif).seconds);
+  if (TIMER_DEADLINE !== null) {
+    refs.days.textContent = convertMs(dif).days;
+    refs.hours.textContent = addZero(convertMs(dif).hours);
+    refs.minutes.textContent = addZero(convertMs(dif).minutes);
+    refs.seconds.textContent = addZero(convertMs(dif).seconds);
+  }
+  return;
 }
 
 function convertMs(ms) {
