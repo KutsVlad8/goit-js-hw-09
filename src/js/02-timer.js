@@ -41,8 +41,6 @@ const flatPick = flatpickr('input#datetime-picker', options);
 
 refs.startBtn.addEventListener('click', startTimer);
 
-const intervalId = setInterval(timeToEndTimer, 1000);
-
 function startTimer() {
   const intervalId = setInterval(timeToEndTimer, 1000);
 }
