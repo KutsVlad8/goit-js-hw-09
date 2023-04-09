@@ -1,16 +1,6 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
-//*
-//? 1. подключить бибилиотеку
-//? 2. получить дату  при закрытие календаря
-//? (проверить дату на соответствие)
-//? 3. получить текущую дату
-//? 4. получить разницу между выбранной датой и текущей.
-//? 5. вывест на экран,отформатировав в дни,часы,минуты,секунды.
-//? 6. при клике запустить интревал  который будет отбновляться каждую секунду.
-//*
-
 const refs = {
   startBtn: document.querySelector('button[data-start]'),
   days: document.querySelector('[data-days]'),
@@ -19,9 +9,11 @@ const refs = {
   seconds: document.querySelector('[data-seconds]'),
 };
 
-refs.startBtn.setAttribute('disabled', true);
-
 let TIMER_DEADLINE = null;
+let intervalId = null;
+
+refs.startBtn.setAttribute('disabled', true);
+refs.startBtn.addEventListener('click', startTimer);
 
 const options = {
   enableTime: true,
@@ -39,10 +31,8 @@ const options = {
 
 const flatPick = flatpickr('input#datetime-picker', options);
 
-refs.startBtn.addEventListener('click', startTimer);
-
 function startTimer() {
-  const intervalId = setInterval(timeToEndTimer, 1000);
+  intervalId = setInterval(timeToEndTimer, 1000);
 }
 
 timeToEndTimer();
@@ -50,13 +40,17 @@ timeToEndTimer();
 function timeToEndTimer() {
   const now = new Date();
 
-  const dif = TIMER_DEADLINE - now;
+  const diff = TIMER_DEADLINE - now;
+
+  if (diff <= 0) {
+    clearInterval(intervalId);
+  }
 
   if (TIMER_DEADLINE !== null) {
-    refs.days.textContent = convertMs(dif).days;
-    refs.hours.textContent = addZero(convertMs(dif).hours);
-    refs.minutes.textContent = addZero(convertMs(dif).minutes);
-    refs.seconds.textContent = addZero(convertMs(dif).seconds);
+    refs.days.textContent = convertMs(diff).days;
+    refs.hours.textContent = addZero(convertMs(diff).hours);
+    refs.minutes.textContent = addZero(convertMs(diff).minutes);
+    refs.seconds.textContent = addZero(convertMs(diff).seconds);
   }
   return;
 }
