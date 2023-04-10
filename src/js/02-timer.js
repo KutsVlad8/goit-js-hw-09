@@ -42,7 +42,7 @@ function timeToEndTimer() {
 
   const diff = TIMER_DEADLINE - now;
 
-  if (diff <= 0) {
+  if (diff <= 1000) {
     clearInterval(intervalId);
   }
 
