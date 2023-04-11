@@ -1,47 +1,44 @@
-//*
-// 1.понять как это все работает!!!!!
-// 1.создать функцию которая создает promise
-// 2.сделать отдельно функции для fulfield & reject
-// 3. связать разметку с promise
-//*
+const form = document.querySelector('.form');
 
-const refs = {
-  form: document.querySelector('.form'),
-};
+const formData = {};
 
-const form = {};
-
-refs.form.addEventListener('change', textInput);
-refs.form.addEventListener('submit', onButton);
+form.addEventListener('change', textInput);
+form.addEventListener('submit', onSubmitButton);
 
 function textInput(event) {
-  form[event.target.name] = event.target.value;
+  formData[event.target.name] = Number(event.target.value);
 }
 
-function onButton(event) {
+function onSubmitButton(event) {
   event.preventDefault();
-  console.log(form);
+
+  const { delay, step, amount } = formData;
+
+  if (delay < 0 || step < 0 || amount < 0) {
+    console.log('Typed number must be greater than 0');
+    return;
+  }
+
+  for (let i = 1; i <= amount; i += 1) {
+    createPromise(i, delay + step * i)
+      .then(({ position, delay }) => {
+        console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+      })
+      .catch(({ position, delay }) => {
+        console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+      });
+  }
 }
 
-function createPromise({ delay, step, amount }) {
+function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
-    const time = step;
-
-    const shouldResolve = Math.random() > 0.5;
     setTimeout(() => {
+      const shouldResolve = Math.random() > 0.5;
       if (shouldResolve) {
-        resolve({ delay, step, amount });
+        resolve({ position, delay });
       } else {
-        reject({ delay, step, amount });
+        reject({ position, delay });
       }
-    }, time);
+    }, delay);
   });
 }
-
-createPromise(1000, 2000, 3)
-  .then(({ delay, step, amount }) => {
-    console.log(`✅ Fulfilled promise ${amount} in ${step}ms`);
-  })
-  .catch(({ delay, step, amount }) => {
-    console.log(`❌ Rejected promise ${amount} in ${step}ms`);
-  });
