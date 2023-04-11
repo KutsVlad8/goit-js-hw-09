@@ -1,5 +1,6 @@
-const form = document.querySelector('.form');
+import Notiflix from 'notiflix';
 
+const form = document.querySelector('.form');
 const formData = {};
 
 form.addEventListener('change', textInput);
@@ -15,17 +16,26 @@ function onSubmitButton(event) {
   const { delay, step, amount } = formData;
 
   if (delay < 0 || step < 0 || amount < 0) {
-    console.log('Typed number must be greater than 0');
+    Notiflix.Report.failure(
+      'failed',
+      'Typed number must be greater than 0',
+      'try again'
+    );
+    console.log('');
     return;
   }
 
   for (let i = 1; i <= amount; i += 1) {
     createPromise(i, delay + step * i)
       .then(({ position, delay }) => {
-        console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        Notiflix.Notify.success(
+          `✅ Fulfilled promise ${position} in ${delay}ms`
+        );
       })
       .catch(({ position, delay }) => {
-        console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+        Notiflix.Notify.failure(
+          `❌ Rejected promise ${position} in ${delay}ms`
+        );
       });
   }
 }
