@@ -55,7 +55,7 @@ function timeToEndTimer() {
   }
 
   if (TIMER_DEADLINE !== null) {
-    refs.days.textContent = convertMs(diff).days;
+    refs.days.textContent = addZero(convertMs(diff).days);
     refs.hours.textContent = addZero(convertMs(diff).hours);
     refs.minutes.textContent = addZero(convertMs(diff).minutes);
     refs.seconds.textContent = addZero(convertMs(diff).seconds);
