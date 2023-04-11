@@ -12,8 +12,8 @@ const refs = {
 let TIMER_DEADLINE = null;
 let intervalId = null;
 
-refs.startBtn.setAttribute('disabled', true);
 refs.startBtn.addEventListener('click', startTimer);
+refs.startBtn.disabled = true;
 
 const options = {
   enableTime: true,
@@ -22,10 +22,11 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] <= new Date()) {
-      return window.alert('Please choose a date in the future');
+      window.alert('Please choose a date in the future');
     }
-    refs.startBtn.removeAttribute('disabled', true);
+
     TIMER_DEADLINE = selectedDates[0];
+    refs.startBtn.disabled = false;
   },
 };
 
@@ -33,6 +34,7 @@ const flatPick = flatpickr('input#datetime-picker', options);
 
 function startTimer() {
   intervalId = setInterval(timeToEndTimer, 1000);
+  refs.startBtn.disabled = true;
 }
 
 timeToEndTimer();
@@ -61,13 +63,9 @@ function convertMs(ms) {
   const hour = minute * 60;
   const day = hour * 24;
 
-  // Remaining days
   const days = Math.floor(ms / day);
-  // Remaining hours
   const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
   const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
